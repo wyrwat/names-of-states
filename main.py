@@ -20,12 +20,9 @@ while len(correct_guesses) < 51:
     answer_state = screen.textinput(f"{score}/50 States Correct", "What's another state's name? ").title()
     check_state_exist = answer_state == state
     if answer_state == "Exit":
-        to_learn = []
-        for index, row in data.iterrows():
-            if row["state"] not in correct_guesses:
-                to_learn.append(row["state"])
-            new_data = pandas.DataFrame(to_learn)
-            new_data.to_csv("states_to_learn.csv")
+        to_learn = [row["state"] for index, row in data.iterrows() if row["state"] not in correct_guesses]
+        new_data = pandas.DataFrame(to_learn)
+        new_data.to_csv("states_to_learn.csv")
         break
     if check_state_exist.value_counts().get(True, 0):
         state_turtle = turtle.Turtle()
@@ -44,3 +41,10 @@ while len(correct_guesses) < 51:
         answer_state = answer_state.capitalize()
 
 turtle.mainloop()
+
+for index, row in data.iterrows():
+    if row["state"] not in correct_guesses:
+        to_learn.append(row["state"])
+    new_data = pandas.DataFrame(to_learn)
+    new_data.to_csv("states_to_learn.csv")
+
